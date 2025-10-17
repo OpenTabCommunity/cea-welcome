@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انجمن علمی مهندسی کامپیوتر | CE Association</title>
+    <meta name="description" content="انجمن علمی مهندسی کامپیوتر - مرکز نوآوری، یادگیری و همکاری دانشجویان">
+    <style>
+        /* ===== CSS Variables & Base Styles ===== */
+        :root {
+            /* Modern Cyberpunk Color Palette */
+            --color-bg-primary: #0a0e1a;
+            --color-bg-secondary: #111827;
+            --color-bg-tertiary: #1a1f35;
+            
+            --color-accent-cyan: #06b6d4;
+            --color-accent-purple: #8b5cf6;
+            --color-accent-pink: #ec4899;
+            
+            --color-text-primary: #f8fafc;
+            --color-text-secondary: #cbd5e1;
+            --color-text-muted: #94a3b8;
+            
+            --color-border: rgba(148, 163, 184, 0.1);
+            --color-glass: rgba(255, 255, 255, 0.05);
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            
+            /* Typography */
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            --font-size-4xl: 2.5rem;
+            --font-size-5xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-base: 300ms ease;
+            --transition-slow: 500ms ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* ===== Animated Background ===== */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--color-accent-cyan), transparent);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--color-accent-purple), transparent);
+            top: 50%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+        
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--color-accent-pink), transparent);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+        
+        /* ===== Navigation ===== */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: var(--transition-base);
+        }
+        
+        .nav-container.scrolled {
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: var(--transition-base);
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            transition: var(--transition-base);
+            position: relative;
+            padding: var(--spacing-xs) 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-accent-cyan), var(--color-accent-purple));
+            transition: var(--transition-base);
+        }
+        
+        .nav-links a:hover {
+            color: var(--color-text-primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-text-primary);
+            font-size: var(--font-size-2xl);
+            cursor: pointer;
+            padding: var(--spacing-xs);
+        }
+        
+        /* ===== Section Navigation Dots ===== */
+        .section-nav {
+            position: fixed;
+            left: var(--spacing-lg);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .section-nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color-glass);
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+            transition: var(--transition-base);
+            position: relative;
+        }
+        
+        .section-nav-dot:hover,
+        .section-nav-dot.active {
+            background: var(--color-accent-cyan);
+            border-color: var(--color-accent-cyan);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+        
+        .section-nav-dot::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 120%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-base);
+        }
+        
+        .section-nav-dot:hover::before {
+            opacity: 1;
+        }
+        
+        /* ===== Container ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            position: relative;
+            z-index: 1;
+        }
+        
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-2xl) 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* ===== Hero Section ===== */
+        .hero {
+            text-align: center;
+            padding-top: 100px;
+        }
+        
+        .hero-content h1 {
+            font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
+            font-weight: 800;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+        }
+        
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch::before {
+            animation: glitch-1 2s infinite;
+            color: var(--color-accent-cyan);
+            z-index: -1;
+        }
+        
+        .glitch::after {
+            animation: glitch-2 2s infinite;
+            color: var(--color-accent-pink);
+            z-index: -2;
+        }
+        
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(-2px, 2px); }
+        }
+        
+        .typewriter {
+            font-size: var(--font-size-xl);
+            color: var(--color-accent-cyan);
+            margin: var(--spacing-lg) 0;
+            min-height: 2em;
+        }
+        
+        .hero-description {
+            font-size: var(--font-size-lg);
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin: 0 auto var(--spacing-xl);
+            line-height: 1.8;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-base);
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-purple));
+            color: white;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: var(--transition-slow);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--color-glass);
+            color: var(--color-text-primary);
+            border: 2px solid var(--color-border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-accent-cyan);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== Glass Card ===== */
+        .glass-card {
+            background: var(--color-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            transition: var(--transition-base);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(6, 182, 212, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* ===== Events Section ===== */
+        .section-title {
+            font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .event-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent-cyan), var(--color-accent-purple), var(--color-accent-pink));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition-base);
+        }
+        
+        .event-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .event-icon {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--spacing-md);
+            display: inline-block;
+            transition: var(--transition-base);
+        }
+        
+        .event-card:hover .event-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .event-card h3 {
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-primary);
+        }
+        
+        .event-card p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* ===== Video Section ===== */
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: var(--spacing-xl) auto;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .video-container iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+        
+        /* ===== Interactive Section ===== */
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .quiz-container,
+        .message-wall,
+        .meme-gallery {
+            padding: var(--spacing-xl);
+        }
+        
+        .quiz-question {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-primary);
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .quiz-option {
+            padding: var(--spacing-md);
+            background: var(--color-bg-secondary);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-align: right;
+        }
+        
+        .quiz-option:hover {
+            background: var(--color-bg-tertiary);
+            border-color: var(--color-accent-cyan);
+            transform: translateX(-5px);
+        }
+        
+        .quiz-result {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-accent-cyan);
+        }
+        
+        .message-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .message-form input,
+        .message-form textarea {
+            padding: var(--spacing-md);
+            background: var(--color-bg-secondary);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text-primary);
+            font-family: inherit;
+            font-size: var(--font-size-base);
+            transition: var(--transition-base);
+        }
+        
+        .message-form input:focus,
+        .message-form textarea:focus {
+            outline: none;
+            border-color: var(--color-accent-cyan);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        }
+        
+        .message-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .messages-list {
+            margin-top: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .message-item {
+            padding: var(--spacing-md);
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            border-right: 3px solid var(--color-accent-cyan);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .message-author {
+            font-weight: 600;
+            color: var(--color-accent-cyan);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .message-text {
+            color: var(--color-text-secondary);
+        }
+        
+        .meme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .meme-item {
+            aspect-ratio: 1;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-4xl);
+            cursor: pointer;
+            transition: var(--transition-base);
+            border: 2px solid var(--color-border);
+        }
+        
+        .meme-item:hover {
+            transform: scale(1.1) rotate(5deg);
+            border-color: var(--color-accent-purple);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* ===== Footer ===== */
+        footer {
+            background: var(--color-bg-secondary);
+            border-top: 1px solid var(--color-border);
+            padding: var(--spacing-xl) 0;
+            margin-top: var(--spacing-2xl);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .footer-section h3 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-accent-cyan);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            transition: var(--transition-base);
+        }
+        
+        .footer-section a:hover {
+            color: var(--color-accent-cyan);
+            transform: translateX(-5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--color-glass);
+            border: 1px solid var(--color-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            font-size: var(--font-size-lg);
+            transition: var(--transition-base);
+        }
+        
+        .social-link:hover {
+            background: var(--color-accent-cyan);
+            border-color: var(--color-accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(6, 182, 212, 0.4);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+        }
+        
+        /* ===== Scroll to Top Button ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: var(--spacing-lg);
+            right: var(--spacing-lg);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-purple));
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-base);
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(6, 182, 212, 0.3);
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.5);
+        }
+        
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            :root {
+                --spacing-lg: 1rem;
+                --spacing-xl: 2rem;
+                --spacing-2xl: 3rem;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(10, 14, 26, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: var(--spacing-2xl) var(--spacing-lg);
+                transition: var(--transition-base);
+                border-left: 1px solid var(--color-border);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .section-nav {
+                display: none;
+            }
+            
+            .hero {
+                padding-top: 80px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .events-grid,
+            .interactive-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .orb-1, .orb-2, .orb-3 {
+                width: 250px;
+                height: 250px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* ===== Custom Scrollbar ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--color-accent-cyan), var(--color-accent-purple));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--color-accent-purple), var(--color-accent-pink));
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="grid-overlay"></div>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container" id="navbar">
+        <nav class="container">
+            <div class="logo">CE_ASSOC</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">خانه</a></li>
+                <li><a href="#events">رویدادها</a></li>
+                <li><a href="#media">رسانه</a></li>
+                <li><a href="#interactive">تعامل</a></li>
+                <li><a href="#contact">تماس</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </nav>
+    </div>
+
+    <!-- Section Navigation Dots -->
+    <div class="section-nav">
+        <div class="section-nav-dot" data-tooltip="خانه" data-section="home"></div>
+        <div class="section-nav-dot" data-tooltip="رویدادها" data-section="events"></div>
+        <div class="section-nav-dot" data-tooltip="رسانه" data-section="media"></div>
+        <div class="section-nav-dot" data-tooltip="تعامل" data-section="interactive"></div>
+        <div class="section-nav-dot" data-tooltip="تماس" data-section="contact"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    <span class="glitch" data-text="انجمن علمی">انجمن علمی</span>
+                    <br>
+                    مهندسی کامپیوتر
+                </h1>
+                <div class="typewriter" id="typewriter"></div>
+                <p class="hero-description">
+                    ما مرکز نوآوری، یادگیری و همکاری دانشجویان مهندسی کامپیوتر هستیم. 
+                    با ما به دنیای تکنولوژی، برنامه‌نویسی و هوش مصنوعی بپیوندید و آینده را بسازید.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#events" class="btn btn-primary">
+                        <span>کشف رویدادها</span>
+                        <span>←</span>
+                    </a>
+                    <a href="#interactive" class="btn btn-secondary">
+                        <span>عضویت در انجمن</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <div class="container">
+            <h2 class="section-title">رویدادها و فعالیت‌ها</h2>
+            <div class="events-grid">
+                <div class="glass-card event-card">
+                    <div class="event-icon">💻</div>
+                    <h3>TabCode</h3>
+                    <p>مسابقات برنامه‌نویسی تیمی با چالش‌های واقعی. مهارت‌های خود را در کدنویسی سریع و حل مسئله به نمایش بگذارید.</p>
+                </div>
+                <div class="glass-card event-card">
+                    <div class="event-icon">🎤</div>
+                    <h3>TEDx</h3>
+                    <p>سخنرانی‌های الهام‌بخش از پیشگامان صنعت تکنولوژی. ایده‌های نو و دیدگاه‌های تازه را کشف کنید.</p>
+                </div>
+                <div class="glass-card event-card">
+                    <div class="event-icon">🤖</div>
+                    <h3>AI Lab</h3>
+                    <p>آزمایشگاه هوش مصنوعی برای یادگیری عملی. از یادگیری ماشین تا شبکه‌های عصبی را تجربه کنید.</p>
+                </div>
+                <div class="glass-card event-card">
+                    <div class="event-icon">⚡</div>
+                    <h3>Hackathon</h3>
+                    <p>۴۸ ساعت کدنویسی بی‌وقفه برای ساخت محصولات نوآورانه. تیم خود را بسازید و ایده‌تان را زنده کنید.</p>
+                </div>
+                <div class="glass-card event-card">
+                    <div class="event-icon">🎮</div>
+                    <h3>Game Jam</h3>
+                    <p>رویداد توسعه بازی با محدودیت زمانی. خلاقیت خود را در طراحی و برنامه‌نویسی بازی نشان دهید.</p>
+                </div>
+                <div class="glass-card event-card">
+                    <div class="event-icon">🔐</div>
+                    <h3>CTF</h3>
+                    <p>مسابقات امنیت سایبری و هک اخلاقی. مهارت‌های امنیتی خود را در چالش‌های واقعی آزمایش کنید.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Section -->
+    <section id="media">
+        <div class="container">
+            <h2 class="section-title">گالری رسانه</h2>
+            <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: var(--spacing-xl);">
+                نگاهی به فعالیت‌ها و رویدادهای اخیر انجمن
+            </p>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    title="ویدیوی معرفی انجمن"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Section -->
+    <section id="interactive">
+        <div class="container">
+            <h2 class="section-title">بخش تعاملی</h2>
+            <div class="interactive-grid">
+                <!-- Quiz -->
+                <div class="glass-card quiz-container">
+                    <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-accent-purple);">آزمون شخصیت برنامه‌نویس</h3>
+                    <div class="quiz-question" id="quizQuestion">چه زبان برنامه‌نویسی را ترجیح می‌دهید؟</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="python">Python - ساده و قدرتمند</div>
+                        <div class="quiz-option" data-answer="javascript">JavaScript - همه‌جا کاره</div>
+                        <div class="quiz-option" data-answer="cpp">C++ - سرعت و کنترل</div>
+                        <div class="quiz-option" data-answer="java">Java - پایدار و مقیاس‌پذیر</div>
+                    </div>
+                    <div class="quiz-result" id="quizResult" style="display: none;"></div>
+                </div>
+
+                <!-- Message Wall -->
+                <div class="glass-card message-wall">
+                    <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-accent-cyan);">دیوار پیام‌ها</h3>
+                    <form class="message-form" id="messageForm">
+                        <input type="text" placeholder="نام شما" id="messageAuthor" required>
+                        <textarea placeholder="پیام خود را بنویسید..." id="messageText" required></textarea>
+                        <button type="submit" class="btn btn-primary">ارسال پیام</button>
+                    </form>
+                    <div class="messages-list" id="messagesList"></div>
+                </div>
+
+                <!-- Meme Gallery -->
+                <div class="glass-card meme-gallery">
+                    <h3 style="margin-bottom: var(--spacing-lg); color: var(--color-accent-pink);">گالری میم‌های برنامه‌نویسی</h3>
+                    <div class="meme-grid">
+                        <div class="meme-item" title="وقتی کد اولین بار کار می‌کند">😱</div>
+                        <div class="meme-item" title="دیباگ کردن تا صبح">🌙</div>
+                        <div class="meme-item" title="Stack Overflow نجات دهنده">🦸</div>
+                        <div class="meme-item" title="کافئین = کد">☕</div>
+                        <div class="meme-item" title="Git merge conflict">💥</div>
+                        <div class="meme-item" title="Production bug">🔥</div>
+                        <div class="meme-item" title="Code review">👀</div>
+                        <div class="meme-item" title="Legacy code">🏚️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">ارتباط با ما</h2>
+            <div class="glass-card" style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p style="font-size: var(--font-size-lg); color: var(--color-text-secondary); margin-bottom: var(--spacing-xl);">
+                    برای اطلاع از آخرین رویدادها و فعالیت‌های انجمن، ما را در شبکه‌های اجتماعی دنبال کنید.
+                </p>
+                <div class="social-links" style="justify-content: center;">
+                    <a href="https://instagram.com/ce_association" target="_blank" class="social-link" title="Instagram">📷</a>
+                    <a href="https://t.me/ce_association" target="_blank" class="social-link" title="Telegram">✈️</a>
+                    <a href="https://twitter.com/ce_association" target="_blank" class="social-link" title="Twitter">🐦</a>
+                    <a href="https://linkedin.com/company/ce-association" target="_blank" class="social-link" title="LinkedIn">💼</a>
+                    <a href="https://github.com/ce-association" target="_blank" class="social-link" title="GitHub">🐙</a>
+                </div>
+                <div style="margin-top: var(--spacing-xl); padding-top: var(--spacing-xl); border-top: 1px solid var(--color-border);">
+                    <p style="color: var(--color-text-muted);">
+                        📧 info@ce-association.com<br>
+                        📞 +98 21 1234 5678
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>درباره انجمن</h3>
+                    <p>انجمن علمی مهندسی کامپیوتر با هدف ارتقای دانش فنی و ایجاد فضای همکاری بین دانشجویان تاسیس شده است.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>لینک‌های سریع</h3>
+                    <a href="#home">خانه</a>
+                    <a href="#events">رویدادها</a>
+                    <a href="#media">رسانه</a>
+                    <a href="#interactive">تعامل</a>
+                </div>
+                <div class="footer-section">
+                    <h3>منابع</h3>
+                    <a href="#">آموزش‌ها</a>
+                    <a href="#">پروژه‌ها</a>
+                    <a href="#">مقالات</a>
+                    <a href="#">وبلاگ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 انجمن علمی مهندسی کامپیوتر. تمامی حقوق محفوظ است.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <script>
+        // Typewriter Effect
+        const phrases = [
+            'نوآوری در تکنولوژی',
+            'یادگیری مستمر',
+            'همکاری و تیم‌سازی',
+            'خلاقیت در کدنویسی'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriterElement = document.getElementById('typewriter');
+
+        function typeWriter() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+
+            const speed = isDeleting ? 50 : 100;
+            setTimeout(typeWriter, speed);
+        }
+
+        typeWriter();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for Section Animations
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Update section nav dots
+                    const sectionId = entry.target.id;
+                    document.querySelectorAll('.section-nav-dot').forEach(dot => {
+                        dot.classList.remove('active');
+                        if (dot.dataset.section === sectionId) {
+                            dot.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // Section Navigation Dots
+        document.querySelectorAll('.section-nav-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const sectionId = dot.dataset.section;
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Quiz Functionality
+        const quizOptions = document.querySelectorAll('.quiz-option');
+        const quizResult = document.getElementById('quizResult');
+
+        const quizResults = {
+            python: 'شما یک حل‌کننده مسئله خلاق هستید! Python با سادگی و قدرتش برای شما مناسب است. 🐍',
+            javascript: 'شما یک توسعه‌دهنده همه‌فن‌حریف هستید! JavaScript به شما امکان می‌دهد در هر جایی کد بنویسید. 🌐',
+            cpp: 'شما به دنبال کنترل کامل و کارایی بالا هستید! C++ قدرت واقعی را در اختیار شما قرار می‌دهد. ⚡',
+            java: 'شما به پایداری و مقیاس‌پذیری اهمیت می‌دهید! Java برای پروژه‌های بزرگ عالی است. ☕'
+        };
+
+        quizOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const answer = option.dataset.answer;
+                quizResult.textContent = quizResults[answer];
+                quizResult.style.display = 'block';
+                
+                quizOptions.forEach(opt => opt.style.opacity = '0.5');
+                option.style.opacity = '1';
+                option.style.borderColor = 'var(--color-accent-cyan)';
+            });
+        });
+
+        // Message Wall
+        const messageForm = document.getElementById('messageForm');
+        const messagesList = document.getElementById('messagesList');
+        const messages = [
+            { author: 'علی رضایی', text: 'انجمن فوق‌العاده‌ای است! رویدادهای عالی و آموزنده.' },
+            { author: 'سارا احمدی', text: 'از Hackathon لذت بردم. تجربه‌ای بی‌نظیر بود!' }
+        ];
+
+        function displayMessages() {
+            messagesList.innerHTML = messages.map(msg => `
+                <div class="message-item">
+                    <div class="message-author">${msg.author}</div>
+                    <div class="message-text">${msg.text}</div>
+                </div>
+            `).join('');
+        }
+
+        displayMessages();
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const author = document.getElementById('messageAuthor').value;
+            const text = document.getElementById('messageText').value;
+            
+            messages.unshift({ author, text });
+            displayMessages();
+            
+            messageForm.reset();
+        });
+
+        // Meme Gallery Click Effect
+        document.querySelectorAll('.meme-item').forEach(meme => {
+            meme.addEventListener('click', () => {
+                const originalSize = meme.style.fontSize;
+                meme.style.fontSize = '5rem';
+                setTimeout(() => {
+                    meme.style.fontSize = originalSize;
+                }, 300);
+            });
+        });
+
+        // Scroll to Top Button
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Parallax Effect for Gradient Orbs
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const orbs = document.querySelectorAll('.gradient-orb');
+            
+            orbs.forEach((orb, index) => {
+                const speed = 0.5 + (index * 0.2);
+                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Add smooth reveal animation on load
+        window.addEventListener('load', () => {
+            document.querySelector('#home').classList.add('visible');
+        });
+    </script>
+</body>
+</html>
